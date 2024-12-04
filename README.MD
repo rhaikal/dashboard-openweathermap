@@ -47,7 +47,7 @@ docker network create open-weather-map
 ### 4. Start the Environment
 Use Docker Compose to build and start all services:
 ```bash
-docker compose up
+docker compose up --build
 ```
 
 ### 5. Adjust Permissions (Optional)
