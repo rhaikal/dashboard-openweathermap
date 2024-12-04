@@ -1,0 +1,10 @@
+{
+    "id": null,
+    "title": "OpenWeatherMap Dashboard",
+    "timezone": "browser",
+    "panels": [],
+    "schemaVersion": 36,
+    "version": 1,
+    "refresh": "5s"
+}
+  
