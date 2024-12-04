@@ -31,13 +31,19 @@ git clone https://github.com/rhaikal/dashboard-openweathermap
 cd dashboard-openweathermap
 ```
 
-### 2. Start the Environment
+### 2. Create Network
+Create a Docker network for the services:  
+```bash
+docker network create open-weather-map
+```
+
+### 3. Start the Environment
 Use Docker Compose to build and start all services:
 ```bash
 docker compose up
 ```
 
-### 3. Adjust Permissions (Optional)
+### 4. Adjust Permissions (Optional)
 If you encounter permission issues, run the following command to ensure proper file ownership:
 ```bash
 sudo chown -R "${USER:-$(id -un)}" .

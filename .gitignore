@@ -1,3 +1,4 @@
 .env
+/airflow/dags/__pycache__
 /airflow/logs
 /postgres/data
