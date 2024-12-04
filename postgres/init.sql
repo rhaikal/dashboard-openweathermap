@@ -38,8 +38,6 @@ CREATE TABLE IF NOT EXISTS forecasts (
     cloudiness INT NOT NULL,
     weather_main VARCHAR(50),
     weather_description VARCHAR(255),
-    sunrise TIMESTAMP NOT NULL,
-    sunset TIMESTAMP NOT NULL,
     dt TIMESTAMP NOT NULL
 );
 
