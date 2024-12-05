@@ -63,7 +63,7 @@ fetch_pollution_task = PythonOperator(
 
 # Task 3: Fetch weather forecast data
 def fetch_forecast_data():
-    url = f"http://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={API_KEY}"
+    url = f"http://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={API_KEY}&units=metric"
     response = requests.get(url)
 
     if response.status_code == 200:
