@@ -26,10 +26,96 @@
         "type": "grafana-postgresql-datasource",
         "uid": "PCC52D03280B7034C"
       },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 2,
-        "w": 16,
-        "x": 3,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^city_name$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT city_name FROM weathers ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 12,
+        "x": 6,
         "y": 0
       },
       "id": 1,
@@ -75,6 +161,100 @@
       ],
       "transparent": true,
       "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 28,
+      "options": {
+        "bgColor": "transparent",
+        "clockType": "24 hour",
+        "countdownSettings": {
+          "endCountdownTime": "2024-12-05T21:23:37+07:00",
+          "endText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
+        },
+        "countupSettings": {
+          "beginCountupTime": "2024-12-05T21:23:37+07:00",
+          "beginText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
+        },
+        "dateSettings": {
+          "dateFormat": "YYYY-MM-DD",
+          "fontSize": "20px",
+          "fontWeight": "normal",
+          "locale": "",
+          "showDate": false
+        },
+        "descriptionSettings": {
+          "descriptionText": "",
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "noValueText": "no description found",
+          "source": "none"
+        },
+        "fontMono": false,
+        "mode": "time",
+        "refresh": "sec",
+        "timeSettings": {
+          "fontSize": "30px",
+          "fontWeight": "normal"
+        },
+        "timezone": "",
+        "timezoneSettings": {
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "showTimezone": false,
+          "zoneFormat": "offsetAbbv"
+        }
+      },
+      "pluginVersion": "2.1.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "grafana-clock-panel"
     },
     {
       "datasource": {
@@ -179,7 +359,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT temperature, dt FROM forecasts WHERE dt >= date_trunc('day', now()) and dt < date_trunc('day', now()) + interval '7 day' and dt > now()",
+          "rawSql": "SELECT temperature, dt FROM forecasts WHERE dt >= date_trunc('day', now()) and dt < date_trunc('day', now()) + interval '7 day' and dt > now() ORDER BY weather_id DESC LIMIT 40",
           "refId": "A",
           "sql": {
             "columns": [
@@ -292,7 +472,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT weather_main AS \"Weather\", dt AS \"Date\" FROM forecasts WHERE dt >= date_trunc('day', now()) and dt < date_trunc('day', now()) + interval '7 day' and dt > now()",
+          "rawSql": "SELECT weather_main AS \"Weather\", dt AS \"Date\" FROM forecasts ORDER BY weather_id DESC, id ASC LIMIT 40\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -318,9 +498,9 @@
         {
           "id": "formatTime",
           "options": {
-            "outputFormat": "ddd DD MMM yyyy, hh:mm",
+            "outputFormat": "ddd DD MMM yyyy, hh:mm A",
             "timeField": "Date",
-            "timezone": "Asia/Jakarta",
+            "timezone": "utc",
             "useTimezone": true
           }
         }
@@ -346,7 +526,7 @@
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 16,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -374,12 +554,20 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "super-light-blue",
+                "value": 40
+              },
+              {
+                "color": "light-blue",
+                "value": 60
+              },
+              {
+                "color": "blue",
+                "value": 70
               }
             ]
           }
@@ -395,7 +583,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "text",
-                  "mode": "fixed"
+                  "mode": "thresholds"
                 }
               }
             ]
@@ -430,7 +618,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT humidity, dt FROM forecasts WHERE dt >= date_trunc('day', now()) and dt < date_trunc('day', now()) + interval '7 day' and dt > now()",
+          "rawSql": "SELECT humidity, dt FROM forecasts WHERE dt >= date_trunc('day', now()) and dt < date_trunc('day', now()) + interval '7 day' and dt > now() ORDER BY weather_id DESC LIMIT 40",
           "refId": "A",
           "sql": {
             "columns": [
@@ -533,7 +721,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT feels_like FROM weathers     ",
+          "rawSql": "SELECT feels_like FROM weathers",
           "refId": "A",
           "sql": {
             "columns": [
@@ -620,7 +808,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT weather_description FROM weathers",
+          "rawSql": "SELECT weather_description FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -649,18 +837,18 @@
         "type": "grafana-postgresql-datasource",
         "uid": "PCC52D03280B7034C"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "text",
                 "value": null
               },
               {
@@ -668,8 +856,7 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "dateTimeAsLocalNoDateIfToday"
+          }
         },
         "overrides": []
       },
@@ -679,10 +866,10 @@
         "x": 19,
         "y": 8
       },
-      "id": 13,
+      "id": 30,
       "options": {
-        "colorMode": "none",
-        "graphMode": "area",
+        "colorMode": "value",
+        "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
@@ -709,7 +896,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT sunrise as \"Sunrise\" FROM weathers",
+          "rawSql": "SELECT sunrise AS \"Sunrise\" FROM weathers ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -730,6 +917,17 @@
           }
         }
       ],
+      "transformations": [
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "hh:mm A",
+            "timeField": "Sunrise",
+            "timezone": "utc",
+            "useTimezone": true
+          }
+        }
+      ],
       "transparent": true,
       "type": "stat"
     },
@@ -743,6 +941,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "displayName": "Temperature",
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -813,7 +1012,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT temperature FROM weathers ",
+          "rawSql": "SELECT temperature FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -834,7 +1033,6 @@
           }
         }
       ],
-      "title": "Temperature",
       "transparent": true,
       "type": "gauge"
     },
@@ -914,7 +1112,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT temp_min AS \"Temp Min\" FROM weathers ",
+          "rawSql": "SELECT temp_min AS \"Temp Min\" FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1001,7 +1199,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT wind_speed AS \"Wind Speed\" FROM weathers",
+          "rawSql": "SELECT wind_speed AS \"Wind Speed\" FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1088,7 +1286,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select humidity AS \"Humidity\" FROM weathers",
+          "rawSql": "select humidity AS \"Humidity\" FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1175,7 +1373,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT pressure AS \"Pressure\" FROM weathers ",
+          "rawSql": "SELECT pressure AS \"Pressure\" FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1204,18 +1402,18 @@
         "type": "grafana-postgresql-datasource",
         "uid": "PCC52D03280B7034C"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "text",
                 "value": null
               },
               {
@@ -1223,8 +1421,7 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "dateTimeAsLocalNoDateIfToday"
+          }
         },
         "overrides": []
       },
@@ -1234,10 +1431,10 @@
         "x": 19,
         "y": 11
       },
-      "id": 14,
+      "id": 29,
       "options": {
-        "colorMode": "none",
-        "graphMode": "area",
+        "colorMode": "value",
+        "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
@@ -1264,7 +1461,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT sunset AS \"Sunset\" FROM weathers",
+          "rawSql": "SELECT sunset AS \"Sunset\" FROM weathers ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1282,6 +1479,17 @@
               }
             ],
             "limit": 50
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "hh:mm A",
+            "timeField": "Sunset",
+            "timezone": "utc",
+            "useTimezone": true
           }
         }
       ],
@@ -1348,7 +1556,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT temp_max AS \"Temp Max\" FROM weathers ",
+          "rawSql": "SELECT temp_max AS \"Temp Max\" FROM weathers ORDER BY dt DESC LIMIT 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1371,6 +1579,706 @@
       ],
       "transparent": true,
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "SO2",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 20
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "orange",
+                "value": 250
+              },
+              {
+                "color": "red",
+                "value": 350
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 14
+      },
+      "id": 21,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT so2 FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "NO2",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 40
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "orange",
+                "value": 150
+              },
+              {
+                "color": "red",
+                "value": 200
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 14
+      },
+      "id": 22,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT no2 FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "PM10",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 20
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 200
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 14
+      },
+      "id": 16,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT pm10 FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "dark-green",
+                  "index": 0,
+                  "text": "Good"
+                },
+                "2": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "Fair"
+                },
+                "3": {
+                  "color": "yellow",
+                  "index": 2,
+                  "text": "Moderate"
+                },
+                "4": {
+                  "color": "orange",
+                  "index": 3,
+                  "text": "Poor"
+                },
+                "5": {
+                  "color": "red",
+                  "index": 4,
+                  "text": "Very Poor"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 9,
+        "y": 14
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Air Quality$/",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT aqi AS \"Air Quality\" FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transformations": [],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "PM25",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 10
+              },
+              {
+                "color": "yellow",
+                "value": 25
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 75
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 14
+      },
+      "id": 24,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT pm2_5 FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "O3",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 60
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "orange",
+                "value": 140
+              },
+              {
+                "color": "red",
+                "value": 180
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 14
+      },
+      "id": 25,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT o3 FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "CO",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 4400
+              },
+              {
+                "color": "yellow",
+                "value": 9400
+              },
+              {
+                "color": "orange",
+                "value": 12400
+              },
+              {
+                "color": "red",
+                "value": 15400
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 14
+      },
+      "id": 26,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 12
+        }
+      },
+      "pluginVersion": "10.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT co FROM air_quality",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "gauge"
     }
   ],
   "refresh": false,
@@ -1380,13 +2288,13 @@
     "list": []
   },
   "time": {
-    "from": "2024-12-05T06:00:00.000Z",
-    "to": "2024-12-10T03:00:00.000Z"
+    "from": "2024-12-05T16:00:00.000Z",
+    "to": "2024-12-10T13:00:00.000Z"
   },
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "utc",
   "title": "OpenWeatherMap Dashboard",
-  "uid": "eebde811-d51c-4105-84c7-fec553f30760",
-  "version": 1,
+  "uid": "",
+  "version": 3,
   "weekStart": ""
 }
