@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
+from zoneinfo import ZoneInfo
 from datetime import datetime, timedelta
 import requests
 import json
@@ -17,6 +18,7 @@ API_KEY = "6697ee55d2c2753b51e28a3e7e5a75fd"
 LAT = "-7.2458"  # Latitude Surabaya
 LON = "112.7383"  # Longitude Surabaya
 CITY_NAME = 'Surabaya'
+jakarta_tz = ZoneInfo("Asia/Jakarta")
 
 # Define DAG
 dag = DAG(
@@ -108,9 +110,9 @@ def process_weather_data():
     cloudiness = weather_data['clouds']['all']
     weather_main = weather_data['weather'][0]['main']
     weather_description = weather_data['weather'][0]['description']
-    sunrise = datetime.fromtimestamp(weather_data['sys']['sunrise']).strftime('%Y-%m-%d %H:%M:%S')
-    sunset = datetime.fromtimestamp(weather_data['sys']['sunset']).strftime('%Y-%m-%d %H:%M:%S')
-    dt = datetime.fromtimestamp(weather_data['dt']).strftime('%Y-%m-%d %H:%M:%S')
+    sunrise = datetime.fromtimestamp(weather_data['sys']['sunrise'], jakarta_tz).strftime('%Y-%m-%d %H:%M:%S')
+    sunset = datetime.fromtimestamp(weather_data['sys']['sunset'], jakarta_tz).strftime('%Y-%m-%d %H:%M:%S')
+    dt = datetime.fromtimestamp(weather_data['dt'], jakarta_tz).strftime('%Y-%m-%d %H:%M:%S')
 
     data = (
         CITY_NAME, temperature, feels_like, temp_min, temp_max, pressure,
@@ -153,7 +155,7 @@ def process_air_pollution_data():
     pm2_5 = air_pollution_data['list'][0]['components']['pm2_5']
     pm10 = air_pollution_data['list'][0]['components']['pm10']
     nh3 = air_pollution_data['list'][0]['components']['nh3']
-    dt = datetime.fromtimestamp(air_pollution_data['list'][0]['dt']).strftime('%Y-%m-%d %H:%M:%S')
+    dt = datetime.fromtimestamp(air_pollution_data['list'][0]['dt'], jakarta_tz).strftime('%Y-%m-%d %H:%M:%S')
 
     data = (
         CITY_NAME, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3, dt
@@ -187,7 +189,7 @@ def process_forecast_data(**context):
     """
 
     for forecast in forecast_data['list']:
-        dt = datetime.fromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M:%S')
+        dt = datetime.fromtimestamp(forecast['dt'], jakarta_tz).strftime('%Y-%m-%d %H:%M:%S')
         temperature = forecast['main']['temp']
         feels_like = forecast['main']['feels_like']
         temp_min = forecast['main']['temp_min']
