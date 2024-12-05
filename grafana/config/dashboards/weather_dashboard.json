@@ -381,6 +381,7 @@
         }
       ],
       "title": "Estimate Temperature",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -505,6 +506,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "table"
     },
     {
@@ -640,6 +642,7 @@
         }
       ],
       "title": "Estimate Humidity",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -650,7 +653,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-GrYlRd"
+            "mode": "continuous-RdYlGr"
           },
           "mappings": [],
           "thresholds": {
@@ -756,6 +759,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "displayName": "Current Conditions",
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -789,14 +793,14 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^weather_description$/",
+          "fields": "/.*/",
           "values": false
         },
         "text": {
           "valueSize": 30
         },
-        "textMode": "value",
-        "wideLayout": true
+        "textMode": "value_and_name",
+        "wideLayout": false
       },
       "pluginVersion": "10.2.4",
       "targets": [
@@ -1676,6 +1680,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1774,6 +1779,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1872,6 +1878,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -2082,6 +2089,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -2180,6 +2188,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -2278,6 +2287,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "gauge"
     }
   ],
@@ -2288,8 +2298,8 @@
     "list": []
   },
   "time": {
-    "from": "2024-12-05T16:00:00.000Z",
-    "to": "2024-12-10T13:00:00.000Z"
+    "from": "2024-12-05T06:00:00.000Z",
+    "to": "2024-12-10T03:00:00.000Z"
   },
   "timepicker": {},
   "timezone": "utc",
