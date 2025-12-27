@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 from datetime import datetime, timedelta
 import requests
 import json
+import os
 
 # Default arguments
 default_args = {
@@ -14,7 +15,7 @@ default_args = {
 }
 
 # API key dan lokasi
-API_KEY = "6697ee55d2c2753b51e28a3e7e5a75fd"
+API_KEY = os.getenv('OPENWEATHER_API_KEY')
 LAT = "-7.2458"  # Latitude Surabaya
 LON = "112.7383"  # Longitude Surabaya
 CITY_NAME = 'Surabaya'
